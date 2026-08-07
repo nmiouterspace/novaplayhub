@@ -1,0 +1,1 @@
+{"name":"HomeTrack Tracker","short_name":"HT Tracker","description":"PWA gửi vị trí GPS cho hệ thống HomeTrack","start_url":"./","scope":"./","display":"standalone","background_color":"#eef4ff","theme_color":"#2563eb","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
