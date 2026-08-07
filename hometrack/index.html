@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HomeTrack – Quản lý & định vị trong nhà</title>
+  <meta name="theme-color" content="#4f7cff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="HomeTrack" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">HT</div><div><strong>HomeTrack</strong><span>Indoor Locator</span></div></div>
+      <nav>
+        <button class="nav-btn active" data-view="dashboard">Tổng quan</button>
+        <button class="nav-btn" data-view="locator">Định vị</button>
+        <button class="nav-btn" data-view="tags">Quản lý thẻ</button>
+        <button class="nav-btn" data-view="alerts">Cảnh báo</button>
+        <button class="nav-btn" data-view="settings">Cài đặt</button>
+      </nav>
+      <div class="system-card"><span class="dot online"></span><div><b>Hệ thống hoạt động</b><small>3 gateway đang trực tuyến</small></div></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><h1 id="pageTitle">Tổng quan</h1><p id="pageSubtitle">Theo dõi trạng thái thẻ và khu vực trong nhà</p></div>
+        <div class="top-actions"><button class="ghost install-btn" id="installBtn" hidden>Cài ứng dụng</button><button class="ghost" id="simulateBtn">Mô phỏng di chuyển</button><button class="primary" id="addGuestBtn">+ Giao thẻ khách</button></div>
+      </header>
+      <section class="view active" id="dashboardView">
+        <div class="stats-grid">
+          <article class="stat"><span>Đang trực tuyến</span><strong id="onlineCount">9</strong><small>trên 12 thẻ</small></article>
+          <article class="stat"><span>Thẻ khách đang dùng</span><strong id="guestCount">3</strong><small>3 thẻ còn sẵn sàng</small></article>
+          <article class="stat"><span>Pin yếu</span><strong id="lowBatteryCount">2</strong><small>cần sạc sớm</small></article>
+          <article class="stat"><span>Gateway</span><strong>3/3</strong><small>hoạt động bình thường</small></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel mini-map-panel"><div class="panel-head"><div><h2>Bản đồ nhanh</h2><p>Vị trí gần nhất của các thẻ</p></div><button class="link-btn" data-jump="locator">Xem bản đồ</button></div><div class="mini-map-wrap"><img src="assets/floor_ground.svg" alt="Sơ đồ tầng trệt"><div id="miniMarkers"></div></div></article>
+          <article class="panel"><div class="panel-head"><div><h2>Cần chú ý</h2><p>Các trạng thái cần xử lý</p></div></div><div class="attention-list" id="attentionList"></div></article>
+        </div>
+        <article class="panel"><div class="panel-head"><div><h2>Hoạt động gần đây</h2><p>Cập nhật trong hệ thống</p></div></div><div class="timeline" id="timeline"></div></article>
+      </section>
+      <section class="view" id="locatorView">
+        <div class="locator-toolbar panel"><div class="segmented" id="floorSwitch"><button class="active" data-floor="ground">Tầng trệt</button><button data-floor="upper">Tầng trên</button></div><select id="typeFilter"><option value="all">Tất cả thẻ</option><option value="family">Gia đình</option><option value="guest">Khách</option></select><select id="statusFilter"><option value="all">Mọi trạng thái</option><option value="online">Đang online</option><option value="offline">Offline</option></select><span class="hint">Kéo thả marker để mô phỏng vị trí</span></div>
+        <div class="locator-layout"><article class="panel map-panel"><div class="floor-map" id="floorMap"><img id="floorImage" src="assets/floor_ground.svg" alt="Sơ đồ nhà"><div id="markerLayer"></div></div></article><aside class="panel detail-panel" id="detailPanel"><div class="empty-detail"><div class="big-pin">⌖</div><h3>Chọn một marker</h3><p>Bấm vào một người trên bản đồ để xem chi tiết.</p></div></aside></div>
+      </section>
+      <section class="view" id="tagsView"><article class="panel"><div class="panel-head responsive-head"><div><h2>Danh sách thẻ</h2><p>Gia đình và khách đang sử dụng hệ thống</p></div><input id="tagSearch" placeholder="Tìm tên hoặc mã thẻ"></div><div class="table-wrap"><table><thead><tr><th>Người dùng</th><th>Mã thẻ</th><th>Loại</th><th>Khu vực</th><th>Pin</th><th>Trạng thái</th><th></th></tr></thead><tbody id="tagTable"></tbody></table></div></article></section>
+      <section class="view" id="alertsView"><article class="panel"><div class="panel-head"><div><h2>Cảnh báo hệ thống</h2><p>Các cảnh báo đang mở</p></div></div><div id="alertList" class="alert-list"></div></article></section>
+      <section class="view" id="settingsView"><div class="settings-grid"><article class="panel"><h2>Quyền riêng tư</h2><label class="setting-row"><span><b>Tự xóa lịch sử khách</b><small>Xóa sau 24 giờ kể từ lúc trả thẻ</small></span><input type="checkbox" checked></label><label class="setting-row"><span><b>Ẩn tên thật trong BLE</b><small>Chỉ phát mã thiết bị nội bộ</small></span><input type="checkbox" checked></label></article><article class="panel"><h2>Thông báo</h2><label class="setting-row"><span><b>Pin dưới 20%</b><small>Hiển thị cảnh báo trên bảng điều khiển</small></span><input type="checkbox" checked></label><label class="setting-row"><span><b>Gateway mất kết nối</b><small>Cảnh báo khi mất tín hiệu quá 60 giây</small></span><input type="checkbox" checked></label></article></div></section>
+    </main>
+  </div>
+  <dialog id="guestDialog"><form method="dialog" id="guestForm"><div class="dialog-head"><h2>Giao thẻ khách</h2><button value="cancel" class="icon-btn">×</button></div><label>Tên khách<input id="guestName" required placeholder="Ví dụ: Cô Lan"></label><label>Chọn thẻ<select id="guestTagSelect"></select></label><label>Khu vực ban đầu<select id="guestZone"><option>Phòng khách</option><option>Bếp</option><option>Phòng ăn</option><option>Phòng ngủ tầng trên</option></select></label><div class="dialog-actions"><button value="cancel" class="ghost">Hủy</button><button value="default" class="primary" id="confirmGuest">Giao thẻ</button></div></form></dialog>
+  <div class="connection-banner" id="connectionBanner" hidden>Đang ngoại tuyến – dữ liệu mô phỏng vẫn dùng được</div><div class="toast" id="toast"></div><script src="app.js"></script>
+</body></html>
